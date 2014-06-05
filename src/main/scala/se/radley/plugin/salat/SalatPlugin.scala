@@ -113,6 +113,7 @@ class SalatPlugin(app: Application) extends Plugin {
       }.getOrElse(List.empty)
 
       val writeConcern = WriteConcern.valueOf(source.getString("writeconcern", Some(Set("fsyncsafe", "replicassafe", "safe", "normal"))).getOrElse("safe"))
+                          .getOrElse(throw new IllegalStateException("must specify a WriteConcern"))
 
       // If there are replicasets configured go with those otherwise fallback to simple config
       if (hosts.isEmpty)
